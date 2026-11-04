@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JOKKIE PRO KIT STORE</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+background:#0a0a0a;
+color:#ffffff;
+overflow-x:hidden;
+}
+
+body.intro-active{
+overflow:hidden;
+}
+
+.intro-overlay{
+position:fixed;
+inset:0;
+z-index:10000;
+background:#0a0a0a;
+display:flex;
+justify-content:center;
+align-items:center;
+transition:opacity .4s ease,visibility .4s ease;
+}
+
+.intro-overlay.is-hidden{
+opacity:0;
+visibility:hidden;
+pointer-events:none;
+}
+
+.intro-stage{
+position:relative;
+width:min(300px,82vw);
+height:min(300px,82vw);
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.intro-stage.exit-all{
+animation:introExit .38s cubic-bezier(.4,0,1,1) forwards;
+}
+
+.intro-word{
+font-size:clamp(20px,5vw,25px);
+font-weight:800;
+letter-spacing:2px;
+color:#ffffff;
+text-align:center;
+white-space:nowrap;
+opacity:0;
+transform:scale(.94);
+animation:wordFadeIn 1s ease forwards .12s;
+z-index:2;
+}
+
+.intro-word span{
+color:#ff3030;
+}
+
+.intro-ring{
+position:absolute;
+inset:0;
+width:100%;
+height:100%;
+opacity:0;
+transform:scale(.92) rotate(0deg);
+pointer-events:none;
+}
+
+.intro-ring.spin-active{
+animation:ringAppearAndSpin 1.15s cubic-bezier(.32,0,.18,1) forwards;
+}
+
+@keyframes wordFadeIn{
+0%{
+opacity:0;
+transform:scale(.92) translateY(6px);
+}
+100%{
+opacity:1;
+transform:scale(1) translateY(0);
+}
+}
+
+@keyframes ringAppearAndSpin{
+0%{
+opacity:0;
+transform:scale(.9) rotate(0deg);
+}
+16%{
+opacity:1;
+transform:scale(1) rotate(140deg);
+}
+100%{
+opacity:1;
+transform:scale(1) rotate(1440deg);
+}
+}
+
+@keyframes introExit{
+0%{
+opacity:1;
+transform:scale(1);
+}
+100%{
+opacity:0;
+transform:scale(.82);
+}
+}
+
+.page-wrap{
+opacity:0;
+transform:translateY(8px);
+transition:opacity .5s ease,transform .5s ease;
+}
+
+.page-wrap.visible{
+opacity:1;
+transform:translateY(0);
+}
+
+header{
+position:sticky;
+top:0;
+z-index:1000;
+background:rgba(17,17,17,.95);
+backdrop-filter:blur(10px);
+padding:15px 24px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+border-bottom:1px solid #222;
+}
+
+.logo{
+font-size:24px;
+font-weight:800;
+color:#ff3030;
+letter-spacing:.5px;
+text-decoration:none;
+}
+
+.header-nav{
+display:flex;
+align-items:center;
+gap:24px;
+}
+
+.nav-links{
+display:flex;
+gap:22px;
+}
+
+.nav-links a{
+color:#ccc;
+text-decoration:none;
+font-size:14px;
+font-weight:500;
+transition:color .2s;
+}
+
+.nav-links a:hover{
+color:#ffffff;
+}
+
+.help-btn{
+background:#ff3030;
+color:#ffffff;
+border:none;
+padding:10px 18px;
+border-radius:12px;
+cursor:pointer;
+font-weight:600;
+font-size:14px;
+transition:background .2s,transform .2s;
+}
+
+.help-btn:hover{
+background:#e02626;
+transform:translateY(-1px);
+}
+
+.hero img{
+width:100%;
+max-height:550px;
+object-fit:cover;
+display:block;
+background:#111;
+}
+
+.hero-content{
+padding:56px 20px 44px;
+text-align:center;
+max-width:960px;
+margin:auto;
+}
+
+.hero-kicker{
+font-size:13px;
+font-weight:600;
+letter-spacing:2.5px;
+color:#ff3030;
+text-transform:uppercase;
+margin-bottom:12px;
+}
+
+.hero-content h1{
+font-size:clamp(30px,5vw,48px);
+font-weight:800;
+line-height:1.18;
+margin-bottom:16px;
+}
+
+.hero-content p{
+max-width:760px;
+margin:auto;
+line-height:1.8;
+color:#ccc;
+font-size:16px;
+}
+
+.feature-strip{
+max-width:950px;
+margin:0 auto 10px;
+padding:0 20px;
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+gap:12px 28px;
+color:#a8a8a8;
+font-size:14px;
+font-weight:500;
+}
+
+.feature-strip span{
+display:inline-flex;
+align-items:center;
+gap:8px;
+}
+
+.feature-strip span::before{
+content:"";
+width:6px;
+height:6px;
+border-radius:50%;
+background:#ff3030;
+}
+
+.video-section{
+padding:45px 20px;
+}
+
+.section-title{
+text-align:center;
+font-size:clamp(26px,4vw,36px);
+font-weight:700;
+margin-bottom:12px;
+}
+
+.section-subtitle{
+text-align:center;
+color:#9e9e9e;
+font-size:15px;
+max-width:620px;
+margin:0 auto 36px;
+line-height:1.6;
+}
+
+.video-box{
+max-width:950px;
+margin:24px auto 0;
+background:#151515;
+padding:20px;
+border-radius:20px;
+border:1px solid #222;
+}
+
+.video-box img{
+width:100%;
+border-radius:15px;
+display:block;
+background:#111;
+}
+
+.products{
+padding:60px 20px;
+}
+
+.product-grid{
+max-width:1120px;
+margin:auto;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+gap:30px;
+align-items:stretch;
+}
+
+.product-card{
+background:#151515;
+border-radius:20px;
+overflow:hidden;
+border:1px solid #222;
+transition:transform .25s ease,border-color .25s ease;
+display:flex;
+flex-direction:column;
+}
+
+.product-card:hover{
+transform:translateY(-5px);
+border-color:#333;
+}
+
+.product-card img{
+width:100%;
+height:320px;
+object-fit:contain;
+background:#111;
+padding:14px;
+display:block;
+}
+
+.product-content{
+padding:28px;
+display:flex;
+flex-direction:column;
+flex:1;
+}
+
+.kit-tag{
+font-size:12px;
+font-weight:600;
+letter-spacing:1.6px;
+color:#999;
+text-transform:uppercase;
+margin-bottom:6px;
+}
+
+.product-content h3{
+font-size:28px;
+font-weight:700;
+margin-bottom:8px;
+}
+
+.package-tier{
+font-size:14px;
+font-weight:600;
+color:#e2e2e2;
+margin-bottom:16px;
+}
+
+.price-group{
+display:flex;
+align-items:baseline;
+gap:12px;
+font-variant-numeric:tabular-nums;
+}
+
+.old-price{
+text-decoration:line-through;
+color:#888;
+font-size:16px;
+font-weight:500;
+}
+
+.new-price{
+font-size:26px;
+font-weight:700;
+color:#00ff88;
+}
+
+.product-desc{
+margin-top:14px;
+line-height:1.75;
+color:#ccc;
+font-size:14.5px;
+}
+
+.kit-list-wrap{
+margin-top:20px;
+padding-top:18px;
+border-top:1px solid #242424;
+margin-bottom:24px;
+}
+
+.kit-list-title{
+font-size:12px;
+font-weight:600;
+text-transform:uppercase;
+letter-spacing:1.2px;
+color:#8f8f8f;
+margin-bottom:12px;
+}
+
+.kit-list{
+list-style:none;
+display:grid;
+gap:9px;
+}
+
+.kit-list li{
+display:flex;
+align-items:center;
+gap:10px;
+font-size:14.5px;
+color:#eaeaea;
+font-weight:500;
+}
+
+.kit-list li::before{
+content:"";
+width:7px;
+height:7px;
+border-radius:50%;
+background:#00ff88;
+flex-shrink:0;
+}
+
+.btns{
+display:flex;
+gap:10px;
+margin-top:auto;
+flex-wrap:wrap;
+}
+
+.order-btn,
+.whatsapp-btn{
+flex:1;
+min-width:140px;
+padding:14px 16px;
+border:none;
+border-radius:12px;
+font-weight:600;
+font-size:14.5px;
+cursor:pointer;
+text-decoration:none;
+text-align:center;
+transition:opacity .2s,transform .2s;
+}
+
+.order-btn:hover,
+.whatsapp-btn:hover{
+opacity:.92;
+transform:translateY(-1px);
+}
+
+.order-btn{
+background:#ff3030;
+color:#ffffff;
+}
+
+.whatsapp-btn{
+background:#25D366;
+color:#ffffff;
+}
+
+.order-section{
+padding:60px 20px;
+max-width:860px;
+margin:auto;
+}
+
+form{
+background:#151515;
+padding:34px 30px;
+border-radius:20px;
+border:1px solid #222;
+}
+
+form h2{
+font-size:26px;
+margin-bottom:8px;
+}
+
+.form-sub{
+color:#999;
+font-size:14px;
+margin-bottom:24px;
+}
+
+.form-row{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:16px;
+}
+
+input,
+select,
+textarea{
+width:100%;
+padding:15px;
+margin-bottom:18px;
+background:#1f1f1f;
+border:1px solid #333;
+border-radius:12px;
+color:#ffffff;
+font-size:14.5px;
+outline:none;
+transition:border-color .2s;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+border-color:#ff3030;
+}
+
+.submit-btn{
+width:100%;
+padding:16px;
+background:#ff3030;
+color:#ffffff;
+border:none;
+border-radius:12px;
+font-size:17px;
+font-weight:700;
+cursor:pointer;
+transition:background .2s;
+}
+
+.submit-btn:hover{
+background:#e02626;
+}
+
+footer{
+padding:42px 20px;
+text-align:center;
+color:#888;
+border-top:1px solid #191919;
+font-size:14px;
+}
+
+.footer-tagline{
+color:#5f5f5f;
+font-size:12.5px;
+margin-top:6px;
+letter-spacing:.8px;
+text-transform:uppercase;
+}
+
+.modal{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.85);
+justify-content:center;
+align-items:center;
+padding:20px;
+z-index:9999;
+}
+
+.modal-content{
+background:#151515;
+max-width:620px;
+width:100%;
+padding:32px;
+border-radius:20px;
+border:1px solid #262626;
+position:relative;
+}
+
+.modal-content h2{
+margin-bottom:18px;
+font-size:24px;
+}
+
+.modal-kit-row{
+padding:12px 0;
+border-bottom:1px solid #222;
+font-size:15px;
+font-variant-numeric:tabular-nums;
+}
+
+.modal-kit-row s{
+color:#888;
+margin:0 6px;
+}
+
+.modal-kit-price{
+color:#00ff88;
+font-weight:700;
+}
+
+.modal-note{
+margin-top:18px;
+line-height:1.7;
+color:#ccc;
+font-size:14.5px;
+}
+
+.close{
+position:absolute;
+right:22px;
+top:14px;
+font-size:30px;
+color:#aaa;
+cursor:pointer;
+line-height:1;
+}
+
+.close:hover{
+color:#ffffff;
+}
+
+.join-btn{
+display:inline-block;
+margin-top:22px;
+background:#25D366;
+padding:14px 25px;
+border-radius:12px;
+text-decoration:none;
+color:#ffffff;
+font-weight:700;
+font-size:14.5px;
+}
+
+@media (max-width:640px){
+.nav-links{
+display:none;
+}
+.form-row{
+grid-template-columns:1fr;
+gap:0;
+}
+.product-content{
+padding:22px;
+}
+form{
+padding:24px 20px;
+}
+}
+</style>
+<script src="/_aistudio-iframe.js?v=1f94f900"></script></head>
+
+<body class="intro-active">
+
+<div class="intro-overlay" id="introOverlay">
+<div class="intro-stage" id="introStage">
+<svg class="intro-ring" id="introRing" viewBox="0 0 280 280" fill="none">
+<circle cx="140" cy="140" r="130" stroke="rgba(255,48,48,0.18)" stroke-width="2.5"/>
+<circle cx="140" cy="140" r="130" stroke="#ff3030" stroke-width="4" stroke-linecap="round" stroke-dasharray="460 360"/>
+<circle cx="140" cy="140" r="130" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="65 755"/>
+</svg>
+<div class="intro-word">JOKKIE <span>PROKIT</span></div>
+</div>
+</div>
+
+<div class="page-wrap" id="pageWrap">
+
+<header>
+<a href="#" class="logo">JOKKIE PRO KIT</a>
+<div class="header-nav">
+<nav class="nav-links">
+<a href="#packages">Pro Kits</a>
+<a href="#orderSection">Order</a>
+</nav>
+<button class="help-btn" onclick="openHelp()">HELP</button>
+</div>
+</header>
+
+<section class="hero">
+<img src="banner.jpg" alt="Banner">
+
+<div class="hero-content">
+<div class="hero-kicker">The New Generation of Gaming</div>
+<h1>LEVEL UP YOUR GAMING EXPERIENCE</h1>
+<p>
+Engineered for competitive mobile gaming. Keep your device running cool,
+powered, and responsive through every high-intensity session with official JOKKIE PROKIT hardware.
+</p>
+</div>
+
+<div class="feature-strip">
+<span>Active RGB Cooling</span>
+<span>Sustained Peak Performance</span>
+<span>Magnetic &amp; Clip Mounting</span>
+</div>
+</section>
+
+<section class="video-section">
+<h2 class="section-title">Built For Modern Mobile Gamers</h2>
+<p class="section-subtitle">Precision hardware gear designed for comfort, thermal control, and uninterrupted play.</p>
+
+<div class="video-box">
+<img src="picture-.jpg" alt="Jokkie's Announcement">
+</div>
+</section>
+
+<section class="products" id="packages">
+<h2 class="section-title">Choose Your Pro Kit</h2>
+<p class="section-subtitle">Select the hardware package that fits your setup.</p>
+
+<div class="product-grid">
+
+<div class="product-card">
+<img src="prokit-prime.jpg" alt="Prokit Prime">
+
+<div class="product-content">
+<div class="kit-tag">JOKKIE PROKIT &middot; PRIME KIT</div>
+<h3>Prokit Prime</h3>
+<div class="package-tier">🟢 Essential Gaming Package</div>
+
+<div class="price-group">
+<span class="old-price">₦25,000</span>
+<span class="new-price">₦20,000</span>
+</div>
+
+<p class="product-desc">
+Core thermal cooling and precision touch accessories built to keep frame rates steady and controls smooth in every match.
+</p>
+
+<div class="kit-list-wrap">
+<div class="kit-list-title">What's Included</div>
+<ul class="kit-list">
+<li>RGB Cooling Fan</li>
+<li>USB Cable</li>
+<li>1 Pair of Thumb Sleeves</li>
+<li>Magnetic Attachment</li>
+<li>Clip Attachment</li>
+</ul>
+</div>
+
+<div class="btns">
+<button class="order-btn" onclick="selectPackage('Prokit Prime - ₦20,000')">
+Order Now
+</button>
+
+<a class="whatsapp-btn" href="https://wa.me/2349076106100?text=Hello%20Jokkie%2C%20I%20want%20to%20order%20the%20Prokit%20Prime%20(%E2%82%A620%2C000)" target="_blank" rel="noopener noreferrer">
+Order On WhatsApp
+</a>
+</div>
+</div>
+</div>
+
+<div class="product-card">
+<img src="prokit-elite.jpg" alt="Prokit Elite">
+
+<div class="product-content">
+<div class="kit-tag">JOKKIE PROKIT &middot; ELITE KIT</div>
+<h3>Prokit Elite</h3>
+<div class="package-tier">🟢 Premium Gaming Package</div>
+
+<div class="price-group">
+<span class="old-price">₦40,000</span>
+<span class="new-price">₦32,000</span>
+</div>
+
+<p class="product-desc">
+The complete next-generation mobile setup featuring an attachable power bank, active RGB cooling, and extra thumb sleeves for extended play.
+</p>
+
+<div class="kit-list-wrap">
+<div class="kit-list-title">What's Included</div>
+<ul class="kit-list">
+<li>RGB Cooling Fan</li>
+<li>Attachable Power Bank</li>
+<li>USB Cable</li>
+<li>2 Pairs of Thumb Sleeves</li>
+<li>Magnetic Attachment</li>
+<li>Clip Attachment</li>
+</ul>
+</div>
+
+<div class="btns">
+<button class="order-btn" onclick="selectPackage('Prokit Elite - ₦32,000')">
+Order Now
+</button>
+
+<a class="whatsapp-btn" href="https://wa.me/2349076106100?text=Hello%20Jokkie%2C%20I%20want%20to%20order%20the%20Prokit%20Elite%20(%E2%82%A632%2C000)" target="_blank" rel="noopener noreferrer">
+Order On WhatsApp
+</a>
+</div>
+</div>
+</div>
+
+</div>
+</section>
+
+<section class="order-section" id="orderSection">
+
+<form id="orderForm">
+<h2>Delivery Order Form</h2>
+<p class="form-sub">Complete your delivery details below to finalize your order on WhatsApp.</p>
+
+<select id="package" required>
+<option value="">Select Package</option>
+<option value="Prokit Prime - ₦20,000">Prokit Prime - ₦20,000</option>
+<option value="Prokit Elite - ₦32,000">Prokit Elite - ₦32,000</option>
+</select>
+
+<input type="text" id="fullname" placeholder="Full Name" required>
+<input type="tel" id="phone" placeholder="Phone Number" required>
+
+<div class="form-row">
+<input type="text" id="state" placeholder="State" required>
+<input type="text" id="city" placeholder="City" required>
+</div>
+
+<input type="text" id="address" placeholder="Full Delivery Address" required>
+
+<textarea id="note" rows="4" placeholder="Additional Delivery Instructions"></textarea>
+
+<button type="submit" class="submit-btn">
+Submit Order
+</button>
+</form>
+
+</section>
+
+<footer>
+<div>&copy; 2026 JOKKIE PRO KIT</div>
+<div class="footer-tagline">The New Generation of Gaming</div>
+</footer>
+
+</div>
+
+<div class="modal" id="helpModal">
+<div class="modal-content">
+<span class="close" onclick="closeHelp()">&times;</span>
+
+<h2>Available Pro Kits</h2>
+
+<div class="modal-kit-row">
+<b>Prokit Prime</b> (Essential Gaming Package) &mdash; <s>₦25,000</s> <span class="modal-kit-price">₦20,000</span>
+</div>
+
+<div class="modal-kit-row">
+<b>Prokit Elite</b> (Premium Gaming Package) &mdash; <s>₦40,000</s> <span class="modal-kit-price">₦32,000</span>
+</div>
+
+<p class="modal-note">
+Stay connected on the official JOKKIE PROKIT WhatsApp channel for restock updates, new hardware drops, and announcements.
+</p>
+
+<a class="join-btn" href="https://whatsapp.com/channel/0029VbAjUmNAO7RNr9SI7g2T" target="_blank" rel="noopener noreferrer">
+Join WhatsApp Channel
+</a>
+</div>
+</div>
+
+<script>
+(function(){
+var overlay = document.getElementById("introOverlay");
+var stage = document.getElementById("introStage");
+var ring = document.getElementById("introRing");
+var pageWrap = document.getElementById("pageWrap");
+
+setTimeout(function(){
+ring.classList.add("spin-active");
+}, 1250);
+
+setTimeout(function(){
+stage.classList.add("exit-all");
+}, 2420);
+
+setTimeout(function(){
+overlay.classList.add("is-hidden");
+document.body.classList.remove("intro-active");
+pageWrap.classList.add("visible");
+}, 2760);
+})();
+
+function openHelp(){
+document.getElementById("helpModal").style.display = "flex";
+}
+
+function closeHelp(){
+document.getElementById("helpModal").style.display = "none";
+}
+
+window.addEventListener("click", function(e){
+var modal = document.getElementById("helpModal");
+if(e.target === modal){
+closeHelp();
+}
+});
+
+function selectPackage(pkg){
+var selectEl = document.getElementById("package");
+selectEl.value = pkg;
+document.getElementById("orderForm").scrollIntoView({
+behavior: "smooth"
+});
+}
+
+document.getElementById("orderForm").addEventListener("submit", function(e){
+e.preventDefault();
+
+var packageSelected = document.getElementById("package").value;
+var name = document.getElementById("fullname").value;
+var phone = document.getElementById("phone").value;
+var state = document.getElementById("state").value;
+var city = document.getElementById("city").value;
+var address = document.getElementById("address").value;
+var note = document.getElementById("note").value;
+
+var message =
+"*NEW ORDER - JOKKIE PRO KIT*\n\n" +
+"Package: " + packageSelected + "\n" +
+"Name: " + name + "\n" +
+"Phone: " + phone + "\n" +
+"State: " + state + "\n" +
+"City: " + city + "\n" +
+"Address: " + address + "\n" +
+"Note: " + (note || "None");
+
+var url = "https://wa.me/2349076106100?text=" + encodeURIComponent(message);
+var link = document.createElement("a");
+link.href = url;
+link.target = "_blank";
+link.rel = "noopener noreferrer";
+document.body.appendChild(link);
+link.click();
+document.body.removeChild(link);
+});
+</script>
+
+</body>
+</html>
